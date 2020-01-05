@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Register extends StatefulWidget {
@@ -13,6 +14,7 @@ class _RegisterState extends State<Register> {
   final _controllerEmail = TextEditingController();
   final _controllerPassword = TextEditingController();
 
+  /*
   @override
   void initState() {
     _controllerEmail.addListener(() {
@@ -41,120 +43,385 @@ class _RegisterState extends State<Register> {
     super.dispose();
   }
 
+   */
+
+  Widget _firstNamewidget() {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('First Name',
+              style: GoogleFonts.muli(textStyle: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                letterSpacing: .2,),)),
+          SizedBox(height: 10.0,),
+          TextFormField(
+              style: GoogleFonts.muli(
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                  fillColor: Colors.green[400],
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0))
+                  ),
+                  contentPadding: EdgeInsets.symmetric(
+                      horizontal: 10.0,
+                      vertical: 10.0),
+                  labelText: 'What is your first name ? ',
+                  labelStyle: GoogleFonts.muli(
+                    textStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                  icon: Icon(Icons.email,color: Colors.white,)
+              )
+          ),
+          SizedBox(
+            height: 10.0,
+          )
+        ]
+    );
+  }
+
+  Widget _lastNamewidget() {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('Last Name',
+              style: GoogleFonts.muli(textStyle: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                letterSpacing: .2,),)),
+          SizedBox(height: 10.0,),
+          TextFormField(
+              style: GoogleFonts.muli(
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                  fillColor: Colors.green[400],
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0))
+                  ),
+                  contentPadding: EdgeInsets.symmetric(
+                      horizontal: 10.0,
+                      vertical: 10.0),
+                  labelText: 'What is your last name ?',
+                  labelStyle: GoogleFonts.muli(
+                    textStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                  icon: Icon(Icons.email,color: Colors.white,)
+              )
+          ),
+          SizedBox(
+            height: 10.0,
+          )
+        ]
+    );
+  }
+
+  Widget _passwordwidget() {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('Password',
+              style: GoogleFonts.muli(textStyle: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                letterSpacing: .2,),)),
+          SizedBox(height: 10.0,),
+          TextFormField(
+              style: GoogleFonts.muli(
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
+              obscureText: true,
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                  focusColor: Colors.white,
+                  fillColor: Colors.green[400],
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0))
+                  ),
+                  contentPadding: EdgeInsets.symmetric(
+                      horizontal: 10.0,
+                      vertical: 10.0),
+                  labelText: 'Enter your password here',
+                  labelStyle: GoogleFonts.muli(
+                    textStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                  icon: Icon(Icons.vpn_key,color: Colors.white,)
+              )
+          ),
+          SizedBox(
+            height: 10.0,
+          )
+        ]
+    );
+  }
+
+  Widget _emailWidget() {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('Email',
+              style: GoogleFonts.muli(textStyle: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                letterSpacing: .2,),)),
+          SizedBox(height: 10.0,),
+          TextFormField(
+              style: GoogleFonts.muli(
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                  fillColor: Colors.green[400],
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0))
+                  ),
+                  contentPadding: EdgeInsets.symmetric(
+                      horizontal: 10.0,
+                      vertical: 10.0),
+                  labelText: 'Enter your email',
+                  labelStyle: GoogleFonts.muli(
+                    textStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                  icon: Icon(Icons.email,color: Colors.white,)
+              )
+          ),
+          SizedBox(
+            height: 10.0,
+          )
+        ]
+    );
+  }
+
+  void _SignUpButtonPressed() {
+    String signup = 'We are rerouting you to sign in';
+    print(signup);
+    Navigator.pop(context);
+  }
+
+  Widget _buildSignupBtn() {
+    return GestureDetector(
+      onTap: _SignUpButtonPressed,
+      child: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+                text: 'Already have an Account? ',
+                style: GoogleFonts.muli(textStyle: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  letterSpacing: .2,
+                ),)
+            ),
+            TextSpan(
+              text: 'Sign In',
+              style: GoogleFonts.muli(textStyle: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                letterSpacing: .2,
+              ),),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSignUpWithText() {
+    return Column(
+      children: <Widget>[
+        SizedBox(height: 20.0),
+        Text(
+          '- OR -',
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w400,
+              letterSpacing: .2
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _termsPrivacy() {
+    String terms = 'We want to read terms';
+    print(terms);
+  }
+
+  Widget _termsandCond() {
+    return Column(
+      children: <Widget>[
+        Text(
+          '*By signing up, you are agreeing to our',
+          style: GoogleFonts.muli(
+            textStyle: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              letterSpacing: .2,
+
+            ),),),
+        SizedBox(height: 3.0,),
+        GestureDetector(
+          onTap: _termsPrivacy,
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                    text: 'Terms & Conditions',
+                    style: GoogleFonts.muli(textStyle: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
+                      letterSpacing: .2,
+                    ),)
+                ),
+                TextSpan(text: ' and ', style: TextStyle(fontSize: 11)),
+                TextSpan(
+                  text: 'Privacy Policy',
+                  style: GoogleFonts.muli(textStyle: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
+                    letterSpacing: .2,
+                  ),),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _RegisterBtnPressed() {
+    print('We will register you now');
+  }
+
+  Widget _buildRegisterBtn() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 25.0),
+      width: double.infinity,
+      child: RaisedButton(
+        elevation: 5.0,
+        onPressed: _RegisterBtnPressed,
+        padding: EdgeInsets.all(15.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        color: Colors.white,
+        child: Text(
+            'REGISTER',
+            style: GoogleFonts.muli(
+              textStyle: TextStyle(
+                color: Colors.green,
+                letterSpacing: 1.5,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
+            )
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.greenAccent[700],
-        appBar: AppBar(
-          title: Text(
-            'Register',
-            style: GoogleFonts.muli(
-                textStyle: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 35.0,
-                    letterSpacing: .1
-                )
-            ),),
-          backgroundColor: Colors.greenAccent[700],
-          elevation: 0.0,
-        ),
-        body: FocusScope(
-          node: _focusScopeNode,
-          child: Center(
-            child: Container(
-              height: 400,
-              padding: EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 5.0),
-              margin: EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 10.0),
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.all(Radius.circular(30.0)),
+      body: AnnotatedRegion<SystemUiOverlayStyle> (
+        value: SystemUiOverlayStyle.light,
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Stack(
+            children: <Widget>[
+              Container(
+                height: double.infinity,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    tileMode: TileMode.mirror,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.greenAccent[700],
+                    ],
+                    stops: [0.5],
+                  ),
+                ),
               ),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    Center(
-                      child: Container(
-                          height: 100,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                          child: Icon(
-                            CupertinoIcons.book_solid,
+              Container(
+                height: double.infinity,
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 40.0,
+                    vertical: 100.0,
+                  ),
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                          'Sign Up',
+                          style: GoogleFonts.muli(textStyle: TextStyle(
                             color: Colors.white,
-                            size: 100.0,
-                          )),
-                    ),
-                    SizedBox(height: 5.0,),
-                    TextFormField(
-                      keyboardType: TextInputType.emailAddress,
-                      textInputAction: TextInputAction.next,
-                      onFieldSubmitted: _handleSubmittedEmail,
-                      controller: _controllerEmail,
-                      decoration: InputDecoration(
-                          labelText: 'Email',
-                          labelStyle: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          ),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(15.0))
-                          ),
-                          icon: Icon(Icons.email,color: Colors.white,)
-                      ),
-                    ),
-                    SizedBox(height: 15.0,),
-                    TextFormField(
-                      textInputAction: TextInputAction.done,
-                      onFieldSubmitted: _handleSubmittedPassword,
-                      controller: _controllerPassword,
-                      obscureText: true,
-                      keyboardType: TextInputType.visiblePassword,
-                      decoration: InputDecoration(
-                          labelText: 'Password',
-                          labelStyle: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18
-                          ),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(15.0))
-                          ),
-                          icon: Icon(Icons.vpn_key,color:Colors.white,)
-                      ),
-                    ),
-                    FlatButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/login');
-                      },
-                      child: Text(
-                        'Already a member ? LOGIN ',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20),),
-                    ),
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: RaisedButton(onPressed: () {
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                            letterSpacing: .2,
 
-                        },
-                          color: Colors.greenAccent[700],
-                          elevation: 5.0,
-                          child: Text(
-                            'REGISTER',
-                            style: TextStyle(
-                                letterSpacing: 2.0,
-                                color: Colors.white,
-                                fontSize: 30.0,
-                                fontWeight: FontWeight.bold),),),
-                      ),
-                    )
-                  ]
-              ),
-            ),
+                          ),)),
+                      SizedBox(height: 30.0,),
+                      _firstNamewidget(),
+                      SizedBox(height: 30.0,),
+                      _lastNamewidget(),
+                      SizedBox(height: 30.0,),
+                      _emailWidget(),
+                      SizedBox(height: 30.0,),
+                      _passwordwidget(),
+                      _buildRegisterBtn(),
+                      SizedBox(height: 10.0,),
+                      _buildSignUpWithText(),
+                      SizedBox(height: 30.0,),
+                      _buildSignupBtn(),
+                      SizedBox(height: 30.0,),
+                      _termsandCond()
+                    ],
+                  ),
+                ),
+              )
+            ],
           ),
-        )
+        ),
+      ),
     );
   }
 }
