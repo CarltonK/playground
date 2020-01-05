@@ -1,6 +1,6 @@
 # playground
 
-A new Flutter application. This is a playground application
+This is a playground application. A journal of some sort if you will. Developed using Flutter
 
 ## Getting Started
 
