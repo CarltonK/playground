@@ -2,14 +2,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:playground/services/auth.dart';
 
 class Register extends StatefulWidget {
   @override
   _RegisterState createState() => _RegisterState();
 }
 
+String _email, _password;
+String _fname, _lname;
+
 class _RegisterState extends State<Register> {
-  final focus = FocusNode();
+  final focusPassword = FocusNode();
+  final focusEmail = FocusNode();
+  final focusLname = FocusNode();
+
+  final AuthService _authService = AuthService();
 
   @override
   void initState() {
@@ -17,23 +25,23 @@ class _RegisterState extends State<Register> {
   }
 
   void _handleSubmittedFirstName(String fname) {
-    print('First Name: ' + fname);
-    FocusScope.of(context).nextFocus();
+    _fname = fname;
+    print('First Name: ' + _fname);
   }
 
   void _handleSubmittedLastName(String lname) {
-    print('Last Name: ' + lname);
-    FocusScope.of(context).nextFocus();
+    _lname = lname;
+    print('Last Name: ' + _lname);
   }
 
   void _handleSubmittedEmail(String email) {
-    print('Email: ' + email);
-    FocusScope.of(context).nextFocus();
+    _email = email;
+    print('Email: ' + _email);
   }
 
   void _handleSubmittedPassword(String password) {
-    print('Password: ' + password);
-    FocusScope.of(context).unfocus();
+    _password = password;
+    print('Password: ' + _password);
   }
 
   final _emailForm = GlobalKey<FormState>();
@@ -77,8 +85,11 @@ class _RegisterState extends State<Register> {
                   }
                   return null;
                 },
+                onFieldSubmitted: (value) {
+                  FocusScope.of(context).requestFocus(focusLname);
+                },
                 textInputAction: TextInputAction.next,
-                onFieldSubmitted: _handleSubmittedFirstName,
+                onSaved: _handleSubmittedFirstName,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                     errorStyle: TextStyle(
@@ -96,7 +107,7 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                     icon: Icon(
-                      Icons.email,
+                      Icons.person,
                       color: Colors.white,
                     ))),
           ),
@@ -137,8 +148,12 @@ class _RegisterState extends State<Register> {
                   }
                   return null;
                 },
+                focusNode: focusLname,
+                onFieldSubmitted: (value) {
+                  FocusScope.of(context).requestFocus(focusEmail);
+                },
                 textInputAction: TextInputAction.next,
-                onFieldSubmitted: _handleSubmittedLastName,
+                onSaved: _handleSubmittedLastName,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                     errorStyle: TextStyle(
@@ -149,6 +164,71 @@ class _RegisterState extends State<Register> {
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                     labelText: 'What is your last name ?',
+                    labelStyle: GoogleFonts.muli(
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
+                    icon: Icon(
+                      Icons.person,
+                      color: Colors.white,
+                    ))),
+          ),
+          SizedBox(
+            height: 10.0,
+          )
+        ]);
+  }
+
+
+  Widget _emailWidget() {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text('Email',
+              style: GoogleFonts.muli(
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  letterSpacing: .2,
+                ),
+              )),
+          SizedBox(
+            height: 10.0,
+          ),
+          Form(
+            key: _emailForm,
+            child: TextFormField(
+                style: GoogleFonts.muli(
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+                validator: (email) {
+                  if (email.isEmpty) {
+                    return 'Email is required';
+                  }
+                  return null;
+                },
+                focusNode: focusEmail,
+                onFieldSubmitted: (value) {
+                  FocusScope.of(context).requestFocus(focusPassword);
+                },
+                textInputAction: TextInputAction.next,
+                onSaved: _handleSubmittedEmail,
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                    errorStyle: TextStyle(
+                        fontWeight: FontWeight.w600, letterSpacing: .3),
+                    fillColor: Colors.green[400],
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    contentPadding:
+                    EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                    labelText: 'Please enter your email',
                     labelStyle: GoogleFonts.muli(
                       textStyle: TextStyle(
                         color: Colors.white,
@@ -200,11 +280,15 @@ class _RegisterState extends State<Register> {
                   }
                   return null;
                 },
+                focusNode: focusPassword,
                 textInputAction: TextInputAction.done,
-                onFieldSubmitted: _handleSubmittedPassword,
+                onSaved: _handleSubmittedPassword,
                 obscureText: true,
                 keyboardType: TextInputType.visiblePassword,
                 decoration: InputDecoration(
+                    helperStyle: TextStyle(color: Colors.white, fontSize: 12),
+                    helperText:
+                    'A secure password is a mixture of atleast 8 characters',
                     errorStyle: TextStyle(
                         fontWeight: FontWeight.w600, letterSpacing: .3),
                     focusColor: Colors.white,
@@ -231,70 +315,11 @@ class _RegisterState extends State<Register> {
         ]);
   }
 
-  Widget _emailWidget() {
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('Email',
-              style: GoogleFonts.muli(
-                textStyle: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  letterSpacing: .2,
-                ),
-              )),
-          SizedBox(
-            height: 10.0,
-          ),
-          Form(
-            key: _emailForm,
-            child: TextFormField(
-                style: GoogleFonts.muli(
-                  textStyle: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
-                ),
-                validator: (email) {
-                  if (email.isEmpty) {
-                    return 'Email is required';
-                  }
-                  return null;
-                },
-                textInputAction: TextInputAction.next,
-                onFieldSubmitted: _handleSubmittedEmail,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                    errorStyle: TextStyle(
-                        fontWeight: FontWeight.w600, letterSpacing: .3),
-                    fillColor: Colors.green[400],
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-                    labelText: 'Please enter your email',
-                    labelStyle: GoogleFonts.muli(
-                      textStyle: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                      ),
-                    ),
-                    icon: Icon(
-                      Icons.email,
-                      color: Colors.white,
-                    ))),
-          ),
-          SizedBox(
-            height: 10.0,
-          )
-        ]);
-  }
 
   void _SignInButtonPressed() {
     String signup = 'We are rerouting you to sign in';
     print(signup);
-    Navigator.pushReplacementNamed(context, '/login');
+    Navigator.pop(context);
   }
 
   Widget _buildSignInBtn() {
@@ -400,15 +425,34 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  void _RegisterBtnPressed() {
+  bool isLoading = true;
+
+  void _RegisterBtnPressed() async {
     print('We will register you now');
     if (_fnameForm.currentState.validate() &&
         _lnameForm.currentState.validate() &&
         _emailForm.currentState.validate() &&
         _passwordForm.currentState.validate()) {
-      Navigator.pushNamed(context, '/login');
+
+      _emailForm.currentState.save();
+      _passwordForm.currentState.save();
+
+      dynamic result = await _authService.createUserEmailPass(
+        _email, _password
+      );
+
+      if (result == null) {
+        print('error registering');
+      }
+      else {
+        print('registered');
+        print(result);
+        Navigator.pop(context);
+      }
     }
   }
+
+
 
   Widget _buildRegisterBtn() {
     return Container(
@@ -416,7 +460,9 @@ class _RegisterState extends State<Register> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: _RegisterBtnPressed,
+        onPressed: () => setState(() {
+          _RegisterBtnPressed();
+        }),
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),

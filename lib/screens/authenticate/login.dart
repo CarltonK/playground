@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:playground/services/auth.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -11,10 +12,10 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   //Checkbox value
   bool _rememberMe = false;
-
+  final AuthService _authService = AuthService();
   final focus = FocusNode();
-  //String email;
-  //String password;
+
+  String _email, _password;
 
   @override
   void initState() {
@@ -22,13 +23,15 @@ class _LoginState extends State<Login> {
   }
 
   void _handleSubmittedEmail(String email) {
-    print('Email: ' + email);
-    FocusScope.of(context).requestFocus(focus);
+    _email = email;
+    print('Email: ' + _email);
   }
 
   void _handleSubmittedPassword(String password) {
-    print('Password: ' + password);
+    _password = password;
+    print('Password: ' + _password);
   }
+
 
   @override
   void dispose() {
@@ -69,8 +72,11 @@ class _LoginState extends State<Login> {
                   return null;
                 },
                 textInputAction: TextInputAction.next,
-                onFieldSubmitted: _handleSubmittedEmail,
+                onSaved: _handleSubmittedEmail,
                 keyboardType: TextInputType.emailAddress,
+                onFieldSubmitted: (value) {
+                  FocusScope.of(context).requestFocus(focus);
+                },
                 decoration: InputDecoration(
                     errorStyle: TextStyle(
                         fontWeight: FontWeight.w600, letterSpacing: .3),
@@ -124,9 +130,8 @@ class _LoginState extends State<Login> {
                     fontSize: 18,
                   ),
                 ),
-                focusNode: focus,
                 textInputAction: TextInputAction.done,
-                onFieldSubmitted: _handleSubmittedPassword,
+                onSaved: _handleSubmittedPassword,
                 validator: (password) {
                   if (password.isEmpty) {
                     return 'Password is required';
@@ -138,6 +143,7 @@ class _LoginState extends State<Login> {
                 },
                 obscureText: true,
                 keyboardType: TextInputType.emailAddress,
+                focusNode: focus,
                 decoration: InputDecoration(
                     errorStyle: TextStyle(
                         fontWeight: FontWeight.w600, letterSpacing: .3),
@@ -192,12 +198,29 @@ class _LoginState extends State<Login> {
     );
   }
 
-  void _LoginBtnPressed() {
+  void _LoginBtnPressed() async {
     String login = 'We want to login now';
     print(login);
     if (_emailForm.currentState.validate() &&
         _passwordForm.currentState.validate()) {
-      Navigator.pushReplacementNamed(context, '/playhome');
+
+      //Save the form to retieve user input
+      _emailForm.currentState.save();
+      _passwordForm.currentState.save();
+
+      dynamic result = await _authService.signInEmailPass(
+        _email,_password
+
+      );
+      if (result == null){
+        print('error signing in');
+      }
+      else {
+        print('signed in');
+        print(result.uid);
+        Navigator.popAndPushNamed(context, '/playhome');
+      }
+
     }
   }
 

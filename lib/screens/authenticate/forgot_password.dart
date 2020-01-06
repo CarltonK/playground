@@ -16,8 +16,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   void _handleSubmittedEmail(String email) {
     print('Email: ' + email);
-    FocusScope.of(context).unfocus();
   }
+
+  final focus = FocusNode();
 
   final _emailForm = GlobalKey<FormState>();
 
@@ -52,8 +53,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   }
                   return null;
                 },
-                textInputAction: TextInputAction.next,
-                onFieldSubmitted: _handleSubmittedEmail,
+                onFieldSubmitted: (v){
+                  FocusScope.of(context).requestFocus(focus);
+                },
+                textInputAction: TextInputAction.done,
+                onSaved: _handleSubmittedEmail,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                     errorStyle: TextStyle(
