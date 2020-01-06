@@ -9,7 +9,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
   //Checkbox value
   bool _rememberMe = false;
 
@@ -20,11 +19,10 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
-
   }
 
   void _handleSubmittedEmail(String email) {
-    print('Email: '+ email);
+    print('Email: ' + email);
     FocusScope.of(context).requestFocus(focus);
   }
 
@@ -43,56 +41,60 @@ class _LoginState extends State<Login> {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-        Text('Email',
-        style: GoogleFonts.muli(textStyle: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-          fontSize: 20,
-          letterSpacing: .2,),)),
-      SizedBox(height: 10.0,),
-      Form(
-        key: _emailForm,
-        child: TextFormField(
-          style: GoogleFonts.muli(
-              textStyle: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              ),
-            ),
-          validator: (email) {
-            if (email.isEmpty){
-              return 'Email is required';
-            }
-            return null;
-          },
-            textInputAction: TextInputAction.next,
-            onFieldSubmitted: _handleSubmittedEmail,
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-              errorStyle: TextStyle(fontWeight: FontWeight.w600, letterSpacing: .3),
-          fillColor: Colors.green[400],
-          border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0))
+          Text('Email',
+              style: GoogleFonts.muli(
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  letterSpacing: .2,
+                ),
+              )),
+          SizedBox(
+            height: 10.0,
           ),
-          contentPadding: EdgeInsets.symmetric(
-          horizontal: 10.0,
-          vertical: 10.0),
-          labelText: 'Please enter your email',
-          labelStyle: GoogleFonts.muli(
-            textStyle: TextStyle(
-          color: Colors.white,
-          fontSize: 14,
+          Form(
+            key: _emailForm,
+            child: TextFormField(
+                style: GoogleFonts.muli(
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+                validator: (email) {
+                  if (email.isEmpty) {
+                    return 'Email is required';
+                  }
+                  return null;
+                },
+                textInputAction: TextInputAction.next,
+                onFieldSubmitted: _handleSubmittedEmail,
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                    errorStyle: TextStyle(
+                        fontWeight: FontWeight.w600, letterSpacing: .3),
+                    fillColor: Colors.green[400],
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                    labelText: 'Please enter your email',
+                    labelStyle: GoogleFonts.muli(
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
+                    icon: Icon(
+                      Icons.email,
+                      color: Colors.white,
+                    ))),
           ),
-         ),
-          icon: Icon(Icons.email,color: Colors.white,)
+          SizedBox(
+            height: 10.0,
           )
-        ),
-      ),
-      SizedBox(
-    height: 10.0,
-    )
-        ]
-    );
+        ]);
   }
 
   final _passwordForm = GlobalKey<FormState>();
@@ -102,12 +104,17 @@ class _LoginState extends State<Login> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text('Password',
-              style: GoogleFonts.muli(textStyle: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                letterSpacing: .2,),)),
-          SizedBox(height: 10.0,),
+              style: GoogleFonts.muli(
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  letterSpacing: .2,
+                ),
+              )),
+          SizedBox(
+            height: 10.0,
+          ),
           Form(
             key: _passwordForm,
             child: TextFormField(
@@ -118,31 +125,31 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 focusNode: focus,
-              textInputAction: TextInputAction.done,
-              onFieldSubmitted: _handleSubmittedPassword,
-              validator: (password) {
+                textInputAction: TextInputAction.done,
+                onFieldSubmitted: _handleSubmittedPassword,
+                validator: (password) {
                   if (password.isEmpty) {
                     return 'Password is required';
                   }
-                  if (password.length < 8){
+                  if (password.length < 8) {
                     return 'Password should be more than 8 characters';
                   }
                   return null;
-              },
-              obscureText: true,
+                },
+                obscureText: true,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                    errorStyle: TextStyle(fontWeight: FontWeight.w600, letterSpacing: .3),
-                    helperText: 'A secure password is a mixture of atleast 8 characters',
-                  helperStyle: TextStyle(color: Colors.white, fontSize: 12),
-                  focusColor: Colors.white,
+                    errorStyle: TextStyle(
+                        fontWeight: FontWeight.w600, letterSpacing: .3),
+                    helperText:
+                        'A secure password is a mixture of atleast 8 characters',
+                    helperStyle: TextStyle(color: Colors.white, fontSize: 12),
+                    focusColor: Colors.white,
                     fillColor: Colors.green[400],
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 10.0,
-                        vertical: 10.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                     labelText: 'Enter your password here',
                     labelStyle: GoogleFonts.muli(
                       textStyle: TextStyle(
@@ -150,15 +157,15 @@ class _LoginState extends State<Login> {
                         fontSize: 14,
                       ),
                     ),
-                    icon: Icon(Icons.vpn_key,color: Colors.white,)
-                )
-            ),
+                    icon: Icon(
+                      Icons.vpn_key,
+                      color: Colors.white,
+                    ))),
           ),
           SizedBox(
             height: 10.0,
           )
-        ]
-    );
+        ]);
   }
 
   void _forgotPasswordBtn() {
@@ -176,24 +183,23 @@ class _LoginState extends State<Login> {
         child: Text(
           'Forgot Password?',
           style: GoogleFonts.muli(
-            textStyle: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-            )
-          ),
+              textStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+          )),
         ),
       ),
     );
   }
 
-  void _LoginBtnPressed(){
+  void _LoginBtnPressed() {
     String login = 'We want to login now';
     print(login);
-    if (_emailForm.currentState.validate() && _passwordForm.currentState.validate()){
-      Navigator.pushReplacementNamed(context,  '/playhome');
+    if (_emailForm.currentState.validate() &&
+        _passwordForm.currentState.validate()) {
+      Navigator.pushReplacementNamed(context, '/playhome');
     }
   }
-
 
   Widget _buildLoginBtn() {
     return Container(
@@ -207,17 +213,15 @@ class _LoginState extends State<Login> {
           borderRadius: BorderRadius.circular(30.0),
         ),
         color: Colors.white,
-        child: Text(
-          'LOGIN',
-          style: GoogleFonts.muli(
-            textStyle: TextStyle(
+        child: Text('LOGIN',
+            style: GoogleFonts.muli(
+              textStyle: TextStyle(
                 color: Colors.green,
                 letterSpacing: 1.5,
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
-            ),
-          )
-        ),
+              ),
+            )),
       ),
     );
   }
@@ -242,8 +246,7 @@ class _LoginState extends State<Login> {
               borderRadius: BorderRadius.circular(30.0),
             ),
             color: Colors.white,
-            child: Text(
-                'RESET',
+            child: Text('RESET',
                 style: GoogleFonts.muli(
                   textStyle: TextStyle(
                     color: Colors.green,
@@ -251,8 +254,7 @@ class _LoginState extends State<Login> {
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
                   ),
-                )
-            ),
+                )),
           ),
         )
       ],
@@ -280,13 +282,14 @@ class _LoginState extends State<Login> {
           ),
           Text(
             'Remember me',
-            style: GoogleFonts.muli(textStyle: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              letterSpacing: .2,
-
-            ),),
+            style: GoogleFonts.muli(
+              textStyle: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                letterSpacing: .2,
+              ),
+            ),
           ),
         ],
       ),
@@ -300,10 +303,9 @@ class _LoginState extends State<Login> {
         Text(
           '- OR -',
           style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w400,
-            letterSpacing: .2
-          ),
+              color: Colors.white,
+              fontWeight: FontWeight.w400,
+              letterSpacing: .2),
         ),
       ],
     );
@@ -318,15 +320,18 @@ class _LoginState extends State<Login> {
     return Column(
       children: <Widget>[
         Text(
-            '*By logging in, you are agreeing to our',
-            style: GoogleFonts.muli(
-              textStyle: TextStyle(
+          '*By logging in, you are agreeing to our',
+          style: GoogleFonts.muli(
+            textStyle: TextStyle(
               color: Colors.white,
               fontSize: 15,
               letterSpacing: .2,
-
-            ),),),
-        SizedBox(height: 3.0,),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 3.0,
+        ),
         GestureDetector(
           onTap: _termsPrivacy,
           child: RichText(
@@ -334,22 +339,25 @@ class _LoginState extends State<Login> {
               children: [
                 TextSpan(
                     text: 'Terms & Conditions',
-                    style: GoogleFonts.muli(textStyle: TextStyle(
+                    style: GoogleFonts.muli(
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                        letterSpacing: .2,
+                      ),
+                    )),
+                TextSpan(text: ' and ', style: TextStyle(fontSize: 11)),
+                TextSpan(
+                  text: 'Privacy Policy',
+                  style: GoogleFonts.muli(
+                    textStyle: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 13,
                       letterSpacing: .2,
-                    ),)
-                ),
-                TextSpan(text: ' and ', style: TextStyle(fontSize: 11)),
-                TextSpan(
-                  text: 'Privacy Policy',
-                  style: GoogleFonts.muli(textStyle: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13,
-                    letterSpacing: .2,
-                  ),),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -362,7 +370,7 @@ class _LoginState extends State<Login> {
   void _SignUpButtonPressed() {
     String signup = 'We want to register now';
     print(signup);
-    Navigator.pushReplacementNamed(context, '/register');
+    Navigator.pushNamed(context, '/register');
   }
 
   Widget _buildSignupBtn() {
@@ -372,21 +380,24 @@ class _LoginState extends State<Login> {
         text: TextSpan(
           children: [
             TextSpan(
-              text: 'Don\'t have an Account? ',
-              style: GoogleFonts.muli(textStyle: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                letterSpacing: .2,
-              ),)
-            ),
+                text: 'Don\'t have an Account? ',
+                style: GoogleFonts.muli(
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    letterSpacing: .2,
+                  ),
+                )),
             TextSpan(
               text: 'Sign Up',
-              style: GoogleFonts.muli(textStyle: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                letterSpacing: .2,
-              ),),
+              style: GoogleFonts.muli(
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  letterSpacing: .2,
+                ),
+              ),
             ),
           ],
         ),
@@ -397,68 +408,76 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-          value: SystemUiOverlayStyle.light,
-          child: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  height: double.infinity,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      tileMode: TileMode.mirror,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.greenAccent[700],
-                      ],
-                      stops: [0.5],
-                    ),
+        body: AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light,
+      child: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Stack(
+            children: <Widget>[
+              Container(
+                height: double.infinity,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    tileMode: TileMode.mirror,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.greenAccent[700],
+                    ],
+                    stops: [0.5],
                   ),
                 ),
-                Container(
-                  height: double.infinity,
-                  child: SingleChildScrollView(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 40.0,
-                      vertical: 100.0,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                            'Sign In',
-                            style: GoogleFonts.muli(textStyle: TextStyle(
+              ),
+              Container(
+                height: double.infinity,
+                child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 40.0,
+                    vertical: 100.0,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text('Sign In',
+                          style: GoogleFonts.muli(
+                            textStyle: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 30,
                               letterSpacing: .2,
-
-                            ),)),
-                        SizedBox(height: 30.0,),
-                        _emailwidget(),
-                        SizedBox(height: 30.0,),
-                        _passwordwidget(),
-                        _passwordForgotPass(),
-                        _buildLoginBtn(),
-                        _buildRememberMeCheckbox(),
-                        SizedBox(height: 10.0,),
-                        _buildSignInWithText(),
-                        SizedBox(height: 30.0,),
-                        _buildSignupBtn(),
-                        SizedBox(height: 30.0,),
-                        _termsandCond()
-                      ],
-                    ),
+                            ),
+                          )),
+                      SizedBox(
+                        height: 30.0,
+                      ),
+                      _emailwidget(),
+                      SizedBox(
+                        height: 30.0,
+                      ),
+                      _passwordwidget(),
+                      _passwordForgotPass(),
+                      _buildLoginBtn(),
+                      _buildRememberMeCheckbox(),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      _buildSignInWithText(),
+                      SizedBox(
+                        height: 30.0,
+                      ),
+                      _buildSignupBtn(),
+                      SizedBox(
+                        height: 30.0,
+                      ),
+                      _termsandCond()
+                    ],
                   ),
-                )
-              ],
-            )
-    ),
-    )
-    );
+                ),
+              )
+            ],
+          )),
+    ));
   }
 }

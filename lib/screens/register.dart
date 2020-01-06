@@ -9,27 +9,25 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-
   final focus = FocusNode();
 
   @override
   void initState() {
     super.initState();
-
   }
 
   void _handleSubmittedFirstName(String fname) {
-    print('First Name: '+ fname);
+    print('First Name: ' + fname);
     FocusScope.of(context).nextFocus();
   }
 
   void _handleSubmittedLastName(String lname) {
-    print('Last Name: '+ lname);
+    print('Last Name: ' + lname);
     FocusScope.of(context).nextFocus();
   }
 
   void _handleSubmittedEmail(String email) {
-    print('Email: '+ email);
+    print('Email: ' + email);
     FocusScope.of(context).nextFocus();
   }
 
@@ -48,19 +46,22 @@ class _RegisterState extends State<Register> {
     super.dispose();
   }
 
-
-
   Widget _firstNamewidget() {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text('First Name',
-              style: GoogleFonts.muli(textStyle: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                letterSpacing: .2,),)),
-          SizedBox(height: 10.0,),
+              style: GoogleFonts.muli(
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  letterSpacing: .2,
+                ),
+              )),
+          SizedBox(
+            height: 10.0,
+          ),
           Form(
             key: _fnameForm,
             child: TextFormField(
@@ -71,7 +72,7 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
                 validator: (fname) {
-                  if (fname.isEmpty){
+                  if (fname.isEmpty) {
                     return 'First Name is required';
                   }
                   return null;
@@ -80,14 +81,13 @@ class _RegisterState extends State<Register> {
                 onFieldSubmitted: _handleSubmittedFirstName,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
-                    errorStyle: TextStyle(fontWeight: FontWeight.w600, letterSpacing: .3),
+                    errorStyle: TextStyle(
+                        fontWeight: FontWeight.w600, letterSpacing: .3),
                     fillColor: Colors.green[400],
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 10.0,
-                        vertical: 10.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                     labelText: 'What is your first name ? ',
                     labelStyle: GoogleFonts.muli(
                       textStyle: TextStyle(
@@ -95,15 +95,15 @@ class _RegisterState extends State<Register> {
                         fontSize: 14,
                       ),
                     ),
-                    icon: Icon(Icons.email,color: Colors.white,)
-                )
-            ),
+                    icon: Icon(
+                      Icons.email,
+                      color: Colors.white,
+                    ))),
           ),
           SizedBox(
             height: 10.0,
           )
-        ]
-    );
+        ]);
   }
 
   Widget _lastNamewidget() {
@@ -111,12 +111,17 @@ class _RegisterState extends State<Register> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text('Last Name',
-              style: GoogleFonts.muli(textStyle: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                letterSpacing: .2,),)),
-          SizedBox(height: 10.0,),
+              style: GoogleFonts.muli(
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  letterSpacing: .2,
+                ),
+              )),
+          SizedBox(
+            height: 10.0,
+          ),
           Form(
             key: _lnameForm,
             child: TextFormField(
@@ -127,7 +132,7 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
                 validator: (lname) {
-                  if (lname.isEmpty){
+                  if (lname.isEmpty) {
                     return 'Last Name is required';
                   }
                   return null;
@@ -136,14 +141,13 @@ class _RegisterState extends State<Register> {
                 onFieldSubmitted: _handleSubmittedLastName,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
-                    errorStyle: TextStyle(fontWeight: FontWeight.w600, letterSpacing: .3),
+                    errorStyle: TextStyle(
+                        fontWeight: FontWeight.w600, letterSpacing: .3),
                     fillColor: Colors.green[400],
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 10.0,
-                        vertical: 10.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                     labelText: 'What is your last name ?',
                     labelStyle: GoogleFonts.muli(
                       textStyle: TextStyle(
@@ -151,15 +155,15 @@ class _RegisterState extends State<Register> {
                         fontSize: 14,
                       ),
                     ),
-                    icon: Icon(Icons.email,color: Colors.white,)
-                )
-            ),
+                    icon: Icon(
+                      Icons.email,
+                      color: Colors.white,
+                    ))),
           ),
           SizedBox(
             height: 10.0,
           )
-        ]
-    );
+        ]);
   }
 
   Widget _passwordwidget() {
@@ -167,12 +171,17 @@ class _RegisterState extends State<Register> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text('Password',
-              style: GoogleFonts.muli(textStyle: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                letterSpacing: .2,),)),
-          SizedBox(height: 10.0,),
+              style: GoogleFonts.muli(
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  letterSpacing: .2,
+                ),
+              )),
+          SizedBox(
+            height: 10.0,
+          ),
           Form(
             key: _passwordForm,
             child: TextFormField(
@@ -186,7 +195,7 @@ class _RegisterState extends State<Register> {
                   if (password.isEmpty) {
                     return 'Password is required';
                   }
-                  if (password.length < 8){
+                  if (password.length < 8) {
                     return 'Password should be more than 8 characters';
                   }
                   return null;
@@ -196,15 +205,14 @@ class _RegisterState extends State<Register> {
                 obscureText: true,
                 keyboardType: TextInputType.visiblePassword,
                 decoration: InputDecoration(
-                    errorStyle: TextStyle(fontWeight: FontWeight.w600, letterSpacing: .3),
+                    errorStyle: TextStyle(
+                        fontWeight: FontWeight.w600, letterSpacing: .3),
                     focusColor: Colors.white,
                     fillColor: Colors.green[400],
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 10.0,
-                        vertical: 10.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                     labelText: 'Enter your password here',
                     labelStyle: GoogleFonts.muli(
                       textStyle: TextStyle(
@@ -212,15 +220,15 @@ class _RegisterState extends State<Register> {
                         fontSize: 14,
                       ),
                     ),
-                    icon: Icon(Icons.vpn_key,color: Colors.white,)
-                )
-            ),
+                    icon: Icon(
+                      Icons.vpn_key,
+                      color: Colors.white,
+                    ))),
           ),
           SizedBox(
             height: 10.0,
           )
-        ]
-    );
+        ]);
   }
 
   Widget _emailWidget() {
@@ -228,12 +236,17 @@ class _RegisterState extends State<Register> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text('Email',
-              style: GoogleFonts.muli(textStyle: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                letterSpacing: .2,),)),
-          SizedBox(height: 10.0,),
+              style: GoogleFonts.muli(
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  letterSpacing: .2,
+                ),
+              )),
+          SizedBox(
+            height: 10.0,
+          ),
           Form(
             key: _emailForm,
             child: TextFormField(
@@ -244,7 +257,7 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
                 validator: (email) {
-                  if (email.isEmpty){
+                  if (email.isEmpty) {
                     return 'Email is required';
                   }
                   return null;
@@ -253,14 +266,13 @@ class _RegisterState extends State<Register> {
                 onFieldSubmitted: _handleSubmittedEmail,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                    errorStyle: TextStyle(fontWeight: FontWeight.w600, letterSpacing: .3),
+                    errorStyle: TextStyle(
+                        fontWeight: FontWeight.w600, letterSpacing: .3),
                     fillColor: Colors.green[400],
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                        horizontal: 10.0,
-                        vertical: 10.0),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                     labelText: 'Please enter your email',
                     labelStyle: GoogleFonts.muli(
                       textStyle: TextStyle(
@@ -268,15 +280,15 @@ class _RegisterState extends State<Register> {
                         fontSize: 14,
                       ),
                     ),
-                    icon: Icon(Icons.email,color: Colors.white,)
-                )
-            ),
+                    icon: Icon(
+                      Icons.email,
+                      color: Colors.white,
+                    ))),
           ),
           SizedBox(
             height: 10.0,
           )
-        ]
-    );
+        ]);
   }
 
   void _SignInButtonPressed() {
@@ -293,20 +305,23 @@ class _RegisterState extends State<Register> {
           children: [
             TextSpan(
                 text: 'Already have an Account? ',
-                style: GoogleFonts.muli(textStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  letterSpacing: .2,
-                ),)
-            ),
+                style: GoogleFonts.muli(
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    letterSpacing: .2,
+                  ),
+                )),
             TextSpan(
               text: 'Sign In',
-              style: GoogleFonts.muli(textStyle: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                letterSpacing: .2,
-              ),),
+              style: GoogleFonts.muli(
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  letterSpacing: .2,
+                ),
+              ),
             ),
           ],
         ),
@@ -323,8 +338,7 @@ class _RegisterState extends State<Register> {
           style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w400,
-              letterSpacing: .2
-          ),
+              letterSpacing: .2),
         ),
       ],
     );
@@ -345,9 +359,12 @@ class _RegisterState extends State<Register> {
               color: Colors.white,
               fontSize: 15,
               letterSpacing: .2,
-
-            ),),),
-        SizedBox(height: 3.0,),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 3.0,
+        ),
         GestureDetector(
           onTap: _termsPrivacy,
           child: RichText(
@@ -355,22 +372,25 @@ class _RegisterState extends State<Register> {
               children: [
                 TextSpan(
                     text: 'Terms & Conditions',
-                    style: GoogleFonts.muli(textStyle: TextStyle(
+                    style: GoogleFonts.muli(
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13,
+                        letterSpacing: .2,
+                      ),
+                    )),
+                TextSpan(text: ' and ', style: TextStyle(fontSize: 11)),
+                TextSpan(
+                  text: 'Privacy Policy',
+                  style: GoogleFonts.muli(
+                    textStyle: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 13,
                       letterSpacing: .2,
-                    ),)
-                ),
-                TextSpan(text: ' and ', style: TextStyle(fontSize: 11)),
-                TextSpan(
-                  text: 'Privacy Policy',
-                  style: GoogleFonts.muli(textStyle: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13,
-                    letterSpacing: .2,
-                  ),),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -382,9 +402,11 @@ class _RegisterState extends State<Register> {
 
   void _RegisterBtnPressed() {
     print('We will register you now');
-    if (_fnameForm.currentState.validate() && _lnameForm.currentState.validate()
-    && _emailForm.currentState.validate() && _passwordForm.currentState.validate()){
-      Navigator.pushNamed(context,  '/login');
+    if (_fnameForm.currentState.validate() &&
+        _lnameForm.currentState.validate() &&
+        _emailForm.currentState.validate() &&
+        _passwordForm.currentState.validate()) {
+      Navigator.pushNamed(context, '/login');
     }
   }
 
@@ -400,8 +422,7 @@ class _RegisterState extends State<Register> {
           borderRadius: BorderRadius.circular(30.0),
         ),
         color: Colors.white,
-        child: Text(
-            'REGISTER',
+        child: Text('REGISTER',
             style: GoogleFonts.muli(
               textStyle: TextStyle(
                 color: Colors.green,
@@ -409,8 +430,7 @@ class _RegisterState extends State<Register> {
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               ),
-            )
-        ),
+            )),
       ),
     );
   }
@@ -418,7 +438,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnnotatedRegion<SystemUiOverlayStyle> (
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -450,28 +470,40 @@ class _RegisterState extends State<Register> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                          'Sign Up',
-                          style: GoogleFonts.muli(textStyle: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                            letterSpacing: .2,
-
-                          ),)),
-                      SizedBox(height: 30.0,),
+                      Text('Sign Up',
+                          style: GoogleFonts.muli(
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30,
+                              letterSpacing: .2,
+                            ),
+                          )),
+                      SizedBox(
+                        height: 30.0,
+                      ),
                       _firstNamewidget(),
-                      SizedBox(height: 30.0,),
+                      SizedBox(
+                        height: 30.0,
+                      ),
                       _lastNamewidget(),
-                      SizedBox(height: 30.0,),
+                      SizedBox(
+                        height: 30.0,
+                      ),
                       _emailWidget(),
-                      SizedBox(height: 30.0,),
+                      SizedBox(
+                        height: 30.0,
+                      ),
                       _passwordwidget(),
                       _buildRegisterBtn(),
                       _buildSignUpWithText(),
-                      SizedBox(height: 30.0,),
+                      SizedBox(
+                        height: 30.0,
+                      ),
                       _buildSignInBtn(),
-                      SizedBox(height: 30.0,),
+                      SizedBox(
+                        height: 30.0,
+                      ),
                       _termsandCond()
                     ],
                   ),
