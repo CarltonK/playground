@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,12 +14,51 @@ class PlaygroundHome extends StatefulWidget {
 class _PlaygroundHomeState extends State<PlaygroundHome> {
 
   int _selectedIndex = 0;
+  int _page = 0;
+  GlobalKey _bottomNavigationKey = GlobalKey();
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
       print('Current Index is $index');
     });
+  }
+
+  Widget _oldNavigationBar() {
+    return BottomNavigationBar(
+      showSelectedLabels: true,
+      showUnselectedLabels: false,
+      currentIndex: _selectedIndex,
+      onTap: _onItemTapped,
+      selectedItemColor: Colors.greenAccent[700],
+      backgroundColor: Colors.white,
+      items: <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          activeIcon: Icon(Icons.home, size: 22,),
+          icon: Icon(CupertinoIcons.home, size: 28,),
+          title: Text(
+              'Home',
+              style: GoogleFonts.muli(textStyle: TextStyle(
+                color: Colors.greenAccent[700],
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                letterSpacing: .1,
+              ),)),
+        ),
+        BottomNavigationBarItem(
+          activeIcon: Icon(CupertinoIcons.person_solid, size: 22,),
+          icon: Icon(CupertinoIcons.person, size: 28,),
+          title: Text(
+              'Profile',
+              style: GoogleFonts.muli(textStyle: TextStyle(
+                color: Colors.greenAccent[700],
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                letterSpacing: .1,
+              ),)),
+        ),
+      ],
+    );
   }
 
   @override
@@ -68,46 +108,24 @@ class _PlaygroundHomeState extends State<PlaygroundHome> {
             ),
           ),
           ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: true,
-        showUnselectedLabels: false,
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        selectedItemColor: Colors.greenAccent[700],
-        backgroundColor: Colors.white,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            activeIcon: Icon(Icons.home, size: 22,),
-            icon: Icon(CupertinoIcons.home, size: 28,),
-            title: Text(
-                'Home',
-                style: GoogleFonts.muli(textStyle: TextStyle(
-                  color: Colors.greenAccent[700],
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  letterSpacing: .1,
-                 ),)),
-          ),
-          BottomNavigationBarItem(
-            activeIcon: Icon(CupertinoIcons.person_solid, size: 22,),
-            icon: Icon(CupertinoIcons.person, size: 28,),
-            title: Text(
-                'Profile',
-                style: GoogleFonts.muli(textStyle: TextStyle(
-                  color: Colors.greenAccent[700],
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  letterSpacing: .1,
-                ),)),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-          elevation: 10.0,
-          onPressed: () => print('FAB Pressed'),
-          backgroundColor: Colors.white,
-          child: Icon(Icons.add, color: Colors.greenAccent[700],size: 30,),)
+      bottomNavigationBar: CurvedNavigationBar(
+        index: 1,
+        animationCurve: Curves.bounceInOut,
+        backgroundColor: Colors.greenAccent[700],
+        height: 50,
+        animationDuration: Duration(milliseconds: 200),
+          items: <Widget> [
+            Icon(Icons.home,),
+            Icon(Icons.add,),
+            Icon(Icons.person,),
+            Icon(Icons.settings,)
+          ],
+        onTap: (index) {
+          setState(() {
+            _page = index;
+            print('Current page selected is : $_page');
+          });
+        }),
     );
   }
 }

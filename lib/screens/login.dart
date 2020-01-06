@@ -13,37 +13,31 @@ class _LoginState extends State<Login> {
   //Checkbox value
   bool _rememberMe = false;
 
-  FocusScopeNode _focusScopeNode = FocusScopeNode();
-  final _controllerEmail = TextEditingController();
-  final _controllerPassword = TextEditingController();
+  final focus = FocusNode();
+  //String email;
+  //String password;
 
   @override
   void initState() {
-    _controllerEmail.addListener(() {
-    });
-
-    _controllerPassword.addListener(() {
-    });
     super.initState();
 
   }
 
   void _handleSubmittedEmail(String email) {
     print('Email: '+ email);
-    _focusScopeNode.nextFocus();
+    FocusScope.of(context).requestFocus(focus);
   }
 
   void _handleSubmittedPassword(String password) {
     print('Password: ' + password);
-    _focusScopeNode.dispose();
   }
 
   @override
   void dispose() {
-    _controllerEmail.dispose();
-    _controllerPassword.dispose();
     super.dispose();
   }
+
+  final _emailForm = GlobalKey<FormState>();
 
   Widget _emailwidget() {
     return Column(
@@ -56,31 +50,43 @@ class _LoginState extends State<Login> {
           fontSize: 20,
           letterSpacing: .2,),)),
       SizedBox(height: 10.0,),
-      TextFormField(
-        style: GoogleFonts.muli(
-            textStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
+      Form(
+        key: _emailForm,
+        child: TextFormField(
+          style: GoogleFonts.muli(
+              textStyle: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              ),
             ),
+          validator: (email) {
+            if (email.isEmpty){
+              return 'Email is required';
+            }
+            return null;
+          },
+            textInputAction: TextInputAction.next,
+            onFieldSubmitted: _handleSubmittedEmail,
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+              errorStyle: TextStyle(fontWeight: FontWeight.w600, letterSpacing: .3),
+          fillColor: Colors.green[400],
+          border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0))
           ),
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-        fillColor: Colors.green[400],
-        border: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10.0))
+          contentPadding: EdgeInsets.symmetric(
+          horizontal: 10.0,
+          vertical: 10.0),
+          labelText: 'Please enter your email',
+          labelStyle: GoogleFonts.muli(
+            textStyle: TextStyle(
+          color: Colors.white,
+          fontSize: 14,
+          ),
+         ),
+          icon: Icon(Icons.email,color: Colors.white,)
+          )
         ),
-        contentPadding: EdgeInsets.symmetric(
-        horizontal: 10.0,
-        vertical: 10.0),
-        labelText: 'Please enter your email',
-        labelStyle: GoogleFonts.muli(
-          textStyle: TextStyle(
-        color: Colors.white,
-        fontSize: 14,
-        ),
-       ),
-        icon: Icon(Icons.email,color: Colors.white,)
-        )
       ),
       SizedBox(
     height: 10.0,
@@ -88,6 +94,8 @@ class _LoginState extends State<Login> {
         ]
     );
   }
+
+  final _passwordForm = GlobalKey<FormState>();
 
   Widget _passwordwidget() {
     return Column(
@@ -100,33 +108,51 @@ class _LoginState extends State<Login> {
                 fontSize: 20,
                 letterSpacing: .2,),)),
           SizedBox(height: 10.0,),
-          TextFormField(
-              style: GoogleFonts.muli(
-                textStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
+          Form(
+            key: _passwordForm,
+            child: TextFormField(
+                style: GoogleFonts.muli(
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
                 ),
-              ),
-            obscureText: true,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                focusColor: Colors.white,
-                  fillColor: Colors.green[400],
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0))
-                  ),
-                  contentPadding: EdgeInsets.symmetric(
-                      horizontal: 10.0,
-                      vertical: 10.0),
-                  labelText: 'Enter your password here',
-                  labelStyle: GoogleFonts.muli(
-                    textStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
+                focusNode: focus,
+              textInputAction: TextInputAction.done,
+              onFieldSubmitted: _handleSubmittedPassword,
+              validator: (password) {
+                  if (password.isEmpty) {
+                    return 'Password is required';
+                  }
+                  if (password.length < 8){
+                    return 'Password should be more than 8 characters';
+                  }
+                  return null;
+              },
+              obscureText: true,
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                    errorStyle: TextStyle(fontWeight: FontWeight.w600, letterSpacing: .3),
+                    helperText: 'A secure password is a mixture of atleast 8 characters',
+                  helperStyle: TextStyle(color: Colors.white, fontSize: 12),
+                  focusColor: Colors.white,
+                    fillColor: Colors.green[400],
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))
                     ),
-                  ),
-                  icon: Icon(Icons.vpn_key,color: Colors.white,)
-              )
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 10.0),
+                    labelText: 'Enter your password here',
+                    labelStyle: GoogleFonts.muli(
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
+                    icon: Icon(Icons.vpn_key,color: Colors.white,)
+                )
+            ),
           ),
           SizedBox(
             height: 10.0,
@@ -163,7 +189,9 @@ class _LoginState extends State<Login> {
   void _LoginBtnPressed(){
     String login = 'We want to login now';
     print(login);
-    Navigator.pushNamed(context, '/playhome');
+    if (_emailForm.currentState.validate() && _passwordForm.currentState.validate()){
+      Navigator.pushReplacementNamed(context,  '/playhome');
+    }
   }
 
 
@@ -334,7 +362,7 @@ class _LoginState extends State<Login> {
   void _SignUpButtonPressed() {
     String signup = 'We want to register now';
     print(signup);
-    Navigator.pushNamed(context, '/register');
+    Navigator.pushReplacementNamed(context, '/register');
   }
 
   Widget _buildSignupBtn() {

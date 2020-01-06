@@ -10,22 +10,19 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
 
-  FocusScopeNode _focusScopeNode = FocusScopeNode();
-  final _controllerEmail = TextEditingController();
 
   @override
   void initState() {
-    _controllerEmail.addListener(() {
-    });
-
     super.initState();
 
   }
 
   void _handleSubmittedEmail(String email) {
     print('Email: '+ email);
-    _focusScopeNode.nextFocus();
+    FocusScope.of(context).unfocus();
   }
+
+  final _emailForm = GlobalKey<FormState>();
 
   Widget _emailwidget() {
     return Column(
@@ -38,31 +35,43 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 fontSize: 20,
                 letterSpacing: .2,),)),
           SizedBox(height: 10.0,),
-          TextFormField(
-              style: GoogleFonts.muli(
-                textStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
+          Form(
+            key: _emailForm,
+            child: TextFormField(
+                style: GoogleFonts.muli(
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
                 ),
-              ),
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                  fillColor: Colors.green[400],
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0))
-                  ),
-                  contentPadding: EdgeInsets.symmetric(
-                      horizontal: 10.0,
-                      vertical: 10.0),
-                  labelText: 'Please enter your email',
-                  labelStyle: GoogleFonts.muli(
-                    textStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
+                validator: (email) {
+                  if (email.isEmpty){
+                    return 'Email is required';
+                  }
+                  return null;
+                },
+                textInputAction: TextInputAction.next,
+                onFieldSubmitted: _handleSubmittedEmail,
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                    errorStyle: TextStyle(fontWeight: FontWeight.w600, letterSpacing: .3),
+                    fillColor: Colors.green[400],
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))
                     ),
-                  ),
-                  icon: Icon(Icons.email,color: Colors.white,)
-              )
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 10.0),
+                    labelText: 'Please enter your email',
+                    labelStyle: GoogleFonts.muli(
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
+                    icon: Icon(Icons.email,color: Colors.white,)
+                )
+            ),
           ),
           SizedBox(
             height: 10.0,
@@ -74,6 +83,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   void _ResetBtnPressed() {
     String reset = "We have reset your password";
     print(reset);
+    if (_emailForm.currentState.validate()){
+      Navigator.pop(context);
+    }
   }
 
   Widget _buildResetBtn() {
@@ -106,7 +118,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   @override
   void dispose() {
-    _controllerEmail.dispose();
     super.dispose();
   }
 
@@ -137,29 +148,31 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               ),
               Container(
                 height: double.infinity,
-                child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 40.0,
-                    vertical: 100.0,
-                  ),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                      Text(
-                      'Reset Password',
-                      style: GoogleFonts.muli(textStyle: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                        letterSpacing: .2,
+                child: Center(
+                  child: SingleChildScrollView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 40.0,
+                      vertical: 100.0,
+                    ),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                        Text(
+                        'Reset Password',
+                        style: GoogleFonts.muli(textStyle: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                          letterSpacing: .2,
 
-                          ),)),
-                        SizedBox(height: 30.0,),
-                        _emailwidget(),
-                        //SizedBox(height: 30.0,),
-                        _buildResetBtn()
-                  ]
+                            ),)),
+                          SizedBox(height: 30.0,),
+                          _emailwidget(),
+                          //SizedBox(height: 30.0,),
+                          _buildResetBtn()
+                    ]
+                    ),
                   ),
                 ),
               )

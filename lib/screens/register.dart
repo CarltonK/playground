@@ -10,40 +10,45 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
 
-  FocusScopeNode _focusScopeNode = FocusScopeNode();
-  final _controllerEmail = TextEditingController();
-  final _controllerPassword = TextEditingController();
+  final focus = FocusNode();
 
-  /*
   @override
   void initState() {
-    _controllerEmail.addListener(() {
-    });
-
-    _controllerPassword.addListener(() {
-    });
     super.initState();
 
   }
 
+  void _handleSubmittedFirstName(String fname) {
+    print('First Name: '+ fname);
+    FocusScope.of(context).nextFocus();
+  }
+
+  void _handleSubmittedLastName(String lname) {
+    print('Last Name: '+ lname);
+    FocusScope.of(context).nextFocus();
+  }
+
   void _handleSubmittedEmail(String email) {
     print('Email: '+ email);
-    _focusScopeNode.nextFocus();
+    FocusScope.of(context).nextFocus();
   }
 
   void _handleSubmittedPassword(String password) {
     print('Password: ' + password);
-    _focusScopeNode.dispose();
+    FocusScope.of(context).unfocus();
   }
+
+  final _emailForm = GlobalKey<FormState>();
+  final _lnameForm = GlobalKey<FormState>();
+  final _fnameForm = GlobalKey<FormState>();
+  final _passwordForm = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    _controllerEmail.dispose();
-    _controllerPassword.dispose();
     super.dispose();
   }
 
-   */
+
 
   Widget _firstNamewidget() {
     return Column(
@@ -56,31 +61,43 @@ class _RegisterState extends State<Register> {
                 fontSize: 20,
                 letterSpacing: .2,),)),
           SizedBox(height: 10.0,),
-          TextFormField(
-              style: GoogleFonts.muli(
-                textStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
+          Form(
+            key: _fnameForm,
+            child: TextFormField(
+                style: GoogleFonts.muli(
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
                 ),
-              ),
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                  fillColor: Colors.green[400],
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0))
-                  ),
-                  contentPadding: EdgeInsets.symmetric(
-                      horizontal: 10.0,
-                      vertical: 10.0),
-                  labelText: 'What is your first name ? ',
-                  labelStyle: GoogleFonts.muli(
-                    textStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
+                validator: (fname) {
+                  if (fname.isEmpty){
+                    return 'First Name is required';
+                  }
+                  return null;
+                },
+                textInputAction: TextInputAction.next,
+                onFieldSubmitted: _handleSubmittedFirstName,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                    errorStyle: TextStyle(fontWeight: FontWeight.w600, letterSpacing: .3),
+                    fillColor: Colors.green[400],
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))
                     ),
-                  ),
-                  icon: Icon(Icons.email,color: Colors.white,)
-              )
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 10.0),
+                    labelText: 'What is your first name ? ',
+                    labelStyle: GoogleFonts.muli(
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
+                    icon: Icon(Icons.email,color: Colors.white,)
+                )
+            ),
           ),
           SizedBox(
             height: 10.0,
@@ -100,31 +117,43 @@ class _RegisterState extends State<Register> {
                 fontSize: 20,
                 letterSpacing: .2,),)),
           SizedBox(height: 10.0,),
-          TextFormField(
-              style: GoogleFonts.muli(
-                textStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
+          Form(
+            key: _lnameForm,
+            child: TextFormField(
+                style: GoogleFonts.muli(
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
                 ),
-              ),
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                  fillColor: Colors.green[400],
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0))
-                  ),
-                  contentPadding: EdgeInsets.symmetric(
-                      horizontal: 10.0,
-                      vertical: 10.0),
-                  labelText: 'What is your last name ?',
-                  labelStyle: GoogleFonts.muli(
-                    textStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
+                validator: (lname) {
+                  if (lname.isEmpty){
+                    return 'Last Name is required';
+                  }
+                  return null;
+                },
+                textInputAction: TextInputAction.next,
+                onFieldSubmitted: _handleSubmittedLastName,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                    errorStyle: TextStyle(fontWeight: FontWeight.w600, letterSpacing: .3),
+                    fillColor: Colors.green[400],
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))
                     ),
-                  ),
-                  icon: Icon(Icons.email,color: Colors.white,)
-              )
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 10.0),
+                    labelText: 'What is your last name ?',
+                    labelStyle: GoogleFonts.muli(
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
+                    icon: Icon(Icons.email,color: Colors.white,)
+                )
+            ),
           ),
           SizedBox(
             height: 10.0,
@@ -144,33 +173,48 @@ class _RegisterState extends State<Register> {
                 fontSize: 20,
                 letterSpacing: .2,),)),
           SizedBox(height: 10.0,),
-          TextFormField(
-              style: GoogleFonts.muli(
-                textStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
+          Form(
+            key: _passwordForm,
+            child: TextFormField(
+                style: GoogleFonts.muli(
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
                 ),
-              ),
-              obscureText: true,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                  focusColor: Colors.white,
-                  fillColor: Colors.green[400],
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0))
-                  ),
-                  contentPadding: EdgeInsets.symmetric(
-                      horizontal: 10.0,
-                      vertical: 10.0),
-                  labelText: 'Enter your password here',
-                  labelStyle: GoogleFonts.muli(
-                    textStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
+                validator: (password) {
+                  if (password.isEmpty) {
+                    return 'Password is required';
+                  }
+                  if (password.length < 8){
+                    return 'Password should be more than 8 characters';
+                  }
+                  return null;
+                },
+                textInputAction: TextInputAction.done,
+                onFieldSubmitted: _handleSubmittedPassword,
+                obscureText: true,
+                keyboardType: TextInputType.visiblePassword,
+                decoration: InputDecoration(
+                    errorStyle: TextStyle(fontWeight: FontWeight.w600, letterSpacing: .3),
+                    focusColor: Colors.white,
+                    fillColor: Colors.green[400],
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))
                     ),
-                  ),
-                  icon: Icon(Icons.vpn_key,color: Colors.white,)
-              )
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 10.0),
+                    labelText: 'Enter your password here',
+                    labelStyle: GoogleFonts.muli(
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
+                    icon: Icon(Icons.vpn_key,color: Colors.white,)
+                )
+            ),
           ),
           SizedBox(
             height: 10.0,
@@ -190,31 +234,43 @@ class _RegisterState extends State<Register> {
                 fontSize: 20,
                 letterSpacing: .2,),)),
           SizedBox(height: 10.0,),
-          TextFormField(
-              style: GoogleFonts.muli(
-                textStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
+          Form(
+            key: _emailForm,
+            child: TextFormField(
+                style: GoogleFonts.muli(
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
                 ),
-              ),
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                  fillColor: Colors.green[400],
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0))
-                  ),
-                  contentPadding: EdgeInsets.symmetric(
-                      horizontal: 10.0,
-                      vertical: 10.0),
-                  labelText: 'Enter your email',
-                  labelStyle: GoogleFonts.muli(
-                    textStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
+                validator: (email) {
+                  if (email.isEmpty){
+                    return 'Email is required';
+                  }
+                  return null;
+                },
+                textInputAction: TextInputAction.next,
+                onFieldSubmitted: _handleSubmittedEmail,
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                    errorStyle: TextStyle(fontWeight: FontWeight.w600, letterSpacing: .3),
+                    fillColor: Colors.green[400],
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))
                     ),
-                  ),
-                  icon: Icon(Icons.email,color: Colors.white,)
-              )
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 10.0),
+                    labelText: 'Please enter your email',
+                    labelStyle: GoogleFonts.muli(
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
+                    icon: Icon(Icons.email,color: Colors.white,)
+                )
+            ),
           ),
           SizedBox(
             height: 10.0,
@@ -223,15 +279,15 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  void _SignUpButtonPressed() {
+  void _SignInButtonPressed() {
     String signup = 'We are rerouting you to sign in';
     print(signup);
-    Navigator.pop(context);
+    Navigator.pushReplacementNamed(context, '/login');
   }
 
-  Widget _buildSignupBtn() {
+  Widget _buildSignInBtn() {
     return GestureDetector(
-      onTap: _SignUpButtonPressed,
+      onTap: _SignInButtonPressed,
       child: RichText(
         text: TextSpan(
           children: [
@@ -326,6 +382,10 @@ class _RegisterState extends State<Register> {
 
   void _RegisterBtnPressed() {
     print('We will register you now');
+    if (_fnameForm.currentState.validate() && _lnameForm.currentState.validate()
+    && _emailForm.currentState.validate() && _passwordForm.currentState.validate()){
+      Navigator.pushNamed(context,  '/login');
+    }
   }
 
   Widget _buildRegisterBtn() {
@@ -408,10 +468,9 @@ class _RegisterState extends State<Register> {
                       SizedBox(height: 30.0,),
                       _passwordwidget(),
                       _buildRegisterBtn(),
-                      SizedBox(height: 10.0,),
                       _buildSignUpWithText(),
                       SizedBox(height: 30.0,),
-                      _buildSignupBtn(),
+                      _buildSignInBtn(),
                       SizedBox(height: 30.0,),
                       _termsandCond()
                     ],
