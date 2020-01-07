@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:playground/services/auth.dart';
 
 class ForgotPassword extends StatefulWidget {
   @override
@@ -9,13 +10,17 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
+  String _email;
+  final AuthService _authService = AuthService();
+
   @override
   void initState() {
     super.initState();
   }
 
   void _handleSubmittedEmail(String email) {
-    print('Email: ' + email);
+    _email = email;
+    print('Email: ' + _email);
   }
 
   final focus = FocusNode();
@@ -53,7 +58,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   }
                   return null;
                 },
-                onFieldSubmitted: (v){
+                onFieldSubmitted: (v) {
                   FocusScope.of(context).requestFocus(focus);
                 },
                 textInputAction: TextInputAction.done,
@@ -86,10 +91,22 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   void _ResetBtnPressed() {
-    String reset = "We have reset your password";
-    print(reset);
+    print("We are attempting to reset your password");
     if (_emailForm.currentState.validate()) {
-      Navigator.pop(context);
+      //Save the form to retrieve user input
+      _emailForm.currentState.save();
+
+      dynamic result = _authService.resetUserPass(_email);
+
+      if (result == null) {
+        print("Error");
+      }
+      if (result == true) {
+        print('Please check your email for password reset instructions');
+        Navigator.pop(context);
+      } else {
+        print(result);
+      }
     }
   }
 

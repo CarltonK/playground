@@ -1,61 +1,117 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:playground/services/auth.dart';
 
-class Register extends StatefulWidget {
+class StepperRegistration extends StatefulWidget {
   @override
-  _RegisterState createState() => _RegisterState();
+  _StepperRegistrationState createState() => _StepperRegistrationState();
 }
 
-String _email, _password;
-String _fname, _lname;
-String _userId;
+class _StepperRegistrationState extends State<StepperRegistration> {
+  static String _email, _password;
+  static String _fname, _lname;
 
-class _RegisterState extends State<Register> {
-  final focusPassword = FocusNode();
-  final focusEmail = FocusNode();
-  final focusLname = FocusNode();
+  static final _emailForm = GlobalKey<FormState>();
+  static final _passwordForm = GlobalKey<FormState>();
+  static final _lnameForm = GlobalKey<FormState>();
+  static final _fnameForm = GlobalKey<FormState>();
 
   final AuthService _authService = AuthService();
 
-  @override
-  void initState() {
-    super.initState();
+  static final focusPassword = FocusNode();
+  static final focusEmail = FocusNode();
+
+  int currentStep = 0;
+  bool complete = false;
+
+
+  next() {
+    currentStep == 0
+        ? _RegisterBtnPressed()
+        : _NamesBtnPressed();
+
+    currentStep + 1 != steps.length
+        ? goTo(currentStep + 1)
+        : setState(() => complete = true);
+
   }
 
-  void _handleSubmittedFirstName(String fname) {
+  cancel() {
+    if (currentStep > 0){
+      goTo(currentStep - 1);
+    }
+  }
+
+  goTo(int step) {
+    setState(() => currentStep = step);
+  }
+
+  List<Step> steps = [
+    Step(
+        isActive: true,
+        state: StepState.editing,
+        title: Text('Let\'s get started',
+            style: GoogleFonts.muli(
+              textStyle: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                letterSpacing: .2,
+              ),
+            )),
+        content: Column(
+          children: <Widget>[
+            _emailWidget(),
+            SizedBox(
+              height: 30.0,
+            ),
+            _passwordwidget(),
+          ],
+        )),
+    Step(
+        isActive: false,
+        title: Text('Almost Done',
+            style: GoogleFonts.muli(
+              textStyle: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                letterSpacing: .2,
+              ),
+            )),
+        content: Column(
+          children: <Widget>[
+            _firstNamewidget(),
+            SizedBox(
+              height: 30.0,
+            ),
+            _lastNamewidget(),
+          ],
+        ))
+  ];
+
+  static void _handleSubmittedFirstName(String fname) {
     _fname = fname;
     print('First Name: ' + _fname);
   }
 
-  void _handleSubmittedLastName(String lname) {
+  static void _handleSubmittedLastName(String lname) {
     _lname = lname;
     print('Last Name: ' + _lname);
   }
 
-  void _handleSubmittedEmail(String email) {
+  static void _handleSubmittedEmail(String email) {
     _email = email;
     print('Email: ' + _email);
   }
 
-  void _handleSubmittedPassword(String password) {
+  static void _handleSubmittedPassword(String password) {
     _password = password;
     print('Password: ' + _password);
   }
 
-  final _emailForm = GlobalKey<FormState>();
-  final _lnameForm = GlobalKey<FormState>();
-  final _fnameForm = GlobalKey<FormState>();
-  final _passwordForm = GlobalKey<FormState>();
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  Widget _firstNamewidget() {
+  static Widget _firstNamewidget() {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -86,9 +142,6 @@ class _RegisterState extends State<Register> {
                   }
                   return null;
                 },
-                onFieldSubmitted: (value) {
-                  FocusScope.of(context).requestFocus(focusLname);
-                },
                 textInputAction: TextInputAction.next,
                 onSaved: _handleSubmittedFirstName,
                 keyboardType: TextInputType.text,
@@ -118,7 +171,7 @@ class _RegisterState extends State<Register> {
         ]);
   }
 
-  Widget _lastNamewidget() {
+  static Widget _lastNamewidget() {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -149,10 +202,6 @@ class _RegisterState extends State<Register> {
                   }
                   return null;
                 },
-                focusNode: focusLname,
-                onFieldSubmitted: (value) {
-                  FocusScope.of(context).requestFocus(focusEmail);
-                },
                 textInputAction: TextInputAction.next,
                 onSaved: _handleSubmittedLastName,
                 keyboardType: TextInputType.text,
@@ -182,7 +231,7 @@ class _RegisterState extends State<Register> {
         ]);
   }
 
-  Widget _emailWidget() {
+  static Widget _emailWidget() {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -213,10 +262,6 @@ class _RegisterState extends State<Register> {
                   }
                   return null;
                 },
-                focusNode: focusEmail,
-                onFieldSubmitted: (value) {
-                  FocusScope.of(context).requestFocus(focusPassword);
-                },
                 textInputAction: TextInputAction.next,
                 onSaved: _handleSubmittedEmail,
                 keyboardType: TextInputType.emailAddress,
@@ -246,7 +291,7 @@ class _RegisterState extends State<Register> {
         ]);
   }
 
-  Widget _passwordwidget() {
+  static Widget _passwordwidget() {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -280,7 +325,6 @@ class _RegisterState extends State<Register> {
                   }
                   return null;
                 },
-                focusNode: focusPassword,
                 textInputAction: TextInputAction.done,
                 onSaved: _handleSubmittedPassword,
                 obscureText: true,
@@ -315,256 +359,148 @@ class _RegisterState extends State<Register> {
         ]);
   }
 
-  void _SignInButtonPressed() {
-    String signup = 'We are rerouting you to sign in';
-    print(signup);
-    Navigator.pop(context);
-  }
-
-  Widget _buildSignInBtn() {
-    return GestureDetector(
-      onTap: _SignInButtonPressed,
-      child: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-                text: 'Already have an Account? ',
-                style: GoogleFonts.muli(
-                  textStyle: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    letterSpacing: .2,
-                  ),
-                )),
-            TextSpan(
-              text: 'Sign In',
-              style: GoogleFonts.muli(
-                textStyle: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  letterSpacing: .2,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSignUpWithText() {
-    return Column(
-      children: <Widget>[
-        SizedBox(height: 20.0),
-        Text(
-          '- OR -',
-          style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w400,
-              letterSpacing: .2),
-        ),
-      ],
-    );
-  }
-
-  void _termsPrivacy() {
-    String terms = 'We want to read terms';
-    print(terms);
-  }
-
-  Widget _termsandCond() {
-    return Column(
-      children: <Widget>[
-        Text(
-          '*By signing up, you are agreeing to our',
-          style: GoogleFonts.muli(
-            textStyle: TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-              letterSpacing: .2,
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 3.0,
-        ),
-        GestureDetector(
-          onTap: _termsPrivacy,
-          child: RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                    text: 'Terms & Conditions',
-                    style: GoogleFonts.muli(
-                      textStyle: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13,
-                        letterSpacing: .2,
-                      ),
-                    )),
-                TextSpan(text: ' and ', style: TextStyle(fontSize: 11)),
-                TextSpan(
-                  text: 'Privacy Policy',
-                  style: GoogleFonts.muli(
-                    textStyle: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13,
-                      letterSpacing: .2,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  bool isLoading = true;
-
   void _RegisterBtnPressed() async {
     print('Attempting registration');
-    if (_fnameForm.currentState.validate() &&
-        _lnameForm.currentState.validate() &&
-        _emailForm.currentState.validate() &&
+    if (_emailForm.currentState.validate() &&
         _passwordForm.currentState.validate()) {
 
       _emailForm.currentState.save();
       _passwordForm.currentState.save();
-      _fnameForm.currentState.save();
-      _lnameForm.currentState.save();
 
       dynamic result =
           await _authService.createUserEmailPass(_email, _password);
 
       if (result == null) {
         print('error registering');
+        setState(() {
+
+        });
       } else {
         print('registered');
         print(result);
-        _userId = result.uid;
-        print('UID: $_userId');
-        dynamic saveResult = await _authService.saveUsertoDb(_userId, _fname, _lname);
-        if (saveResult) {
-          Navigator.popAndPushNamed(context,'/login');
-        }
-        else {
-          print('Registration failed. Try again');
-        }
-
+        //Navigator.pop(context);
+        setState(() => goTo(1));
       }
     }
   }
 
-  Widget _buildRegisterBtn() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 25.0),
-      width: double.infinity,
-      child: RaisedButton(
-        elevation: 5.0,
-        onPressed: () => setState(() {
-          _RegisterBtnPressed();
-        }),
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        color: Colors.white,
-        child: Text('REGISTER',
-            style: GoogleFonts.muli(
-              textStyle: TextStyle(
-                color: Colors.green,
-                letterSpacing: 1.5,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            )),
-      ),
-    );
+  void _NamesBtnPressed() async {
+    print('Attempting names registration');
+    if (_fnameForm.currentState.validate() &&
+        _lnameForm.currentState.validate()) {
+      _fnameForm.currentState.save();
+      _lnameForm.currentState.save();
+
+      print('Alles gut');
+
+      /*
+      dynamic result =
+      await _authService.createUserEmailPass(_email, _password);
+
+      if (result == null) {
+        print('error registering');
+      } else {
+        print('registered');
+        print(result);
+        //Navigator.pop(context);
+        goTo(1);
+      }
+    }
+
+       */
+    }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light,
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Stack(
-            children: <Widget>[
-              Container(
-                height: double.infinity,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    tileMode: TileMode.mirror,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.greenAccent[700],
-                    ],
-                    stops: [0.5],
+
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        body: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle.light,
+          child: GestureDetector(
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      tileMode: TileMode.mirror,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.greenAccent[700],
+                      ],
+                      stops: [0.5],
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                height: double.infinity,
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 40.0,
-                    vertical: 100.0,
-                  ),
-                  physics: AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text('Sign Up',
-                          style: GoogleFonts.muli(
-                            textStyle: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30,
-                              letterSpacing: .2,
+                Container(
+                  height: double.infinity,
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 40.0,
+                      vertical: 50.0,
+                    ),
+                    physics: AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        complete
+                            ? AlertDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(15.0))),
+                          backgroundColor: Colors.white,
+                          title: Text(
+                            'PROCEED',
+                            style: GoogleFonts.muli(
+                                textStyle: TextStyle(
+                                  letterSpacing: 1.5,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.greenAccent[700],
+                                  fontSize: 18,
+                                )),
+                          ),
+                          actions: <Widget>[
+                            new FlatButton(
+                              child: Text(
+                                'YES',
+                                style: GoogleFonts.muli(
+                                    textStyle: TextStyle(
+                                      color: Colors.greenAccent[700],
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    )),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  if (complete) {
+                                    Navigator.pop(context);
+                                  }
+                                  else {
+                                    currentStep = 0;
+                                  }
+                                });
+                              },
                             ),
-                          )),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      _firstNamewidget(),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      _lastNamewidget(),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      _emailWidget(),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      _passwordwidget(),
-                      _buildRegisterBtn(),
-                      _buildSignUpWithText(),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      _buildSignInBtn(),
-                      SizedBox(
-                        height: 30.0,
-                      ),
-                      _termsandCond()
-                    ],
+                          ],
+                        )
+                            : Stepper(
+                          steps: steps,
+                          currentStep: currentStep,
+                          onStepContinue: next,
+                          onStepCancel: cancel,
+                          onStepTapped: (step) => goTo(step),)
+                      ],
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
+    }
 }

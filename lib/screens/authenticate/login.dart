@@ -32,7 +32,6 @@ class _LoginState extends State<Login> {
     print('Password: ' + _password);
   }
 
-
   @override
   void dispose() {
     super.dispose();
@@ -198,29 +197,28 @@ class _LoginState extends State<Login> {
     );
   }
 
+  bool _isLoading = false;
+
   void _LoginBtnPressed() async {
-    String login = 'We want to login now';
+    String login = 'Attempting sign in request';
     print(login);
     if (_emailForm.currentState.validate() &&
         _passwordForm.currentState.validate()) {
-
       //Save the form to retieve user input
       _emailForm.currentState.save();
       _passwordForm.currentState.save();
 
-      dynamic result = await _authService.signInEmailPass(
-        _email,_password
+      dynamic result = await _authService.signInEmailPass(_email, _password);
 
-      );
-      if (result == null){
+      if (result == null) {
         print('error signing in');
-      }
-      else {
+      } else {
         print('signed in');
-        print(result.uid);
-        Navigator.popAndPushNamed(context, '/playhome');
+        String _userId = result.uid;
+        print(_userId);
+        Navigator.popAndPushNamed(context, '/playhome',
+            arguments: {'UID': _userId});
       }
-
     }
   }
 
@@ -393,7 +391,7 @@ class _LoginState extends State<Login> {
   void _SignUpButtonPressed() {
     String signup = 'We want to register now';
     print(signup);
-    Navigator.pushNamed(context, '/register');
+    Navigator.popAndPushNamed(context, '/register');
   }
 
   Widget _buildSignupBtn() {
